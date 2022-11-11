@@ -5,9 +5,7 @@
 void delay(int number_of_seconds)
 {
     int milli_seconds = 100 * number_of_seconds;
- 
     clock_t start_time = clock();
- 
     while (clock() < start_time + milli_seconds);
 }
 
@@ -92,19 +90,18 @@ char	*ft_itoa(int n)
 int main()
 {
 	print_slowly("What's your name?\n");
-	char namn[100];
-	scanf("%99s", namn);
+	char name[100];
+	scanf("%99s", name);
 	print_slowly("Hi ");
-	print_slowly(namn);
+	print_slowly(name);
 	print_slowly("!\nHow old are you?\n");
-	char alder[100];
-	scanf("%99s", alder);
-	int resten = 100 - atoi(alder);
+	char age[100];
+	scanf("%99s", age);
+	int rest = 100 - atoi(age);
 	print_slowly("You are ");
-	print_slowly(alder);
+	print_slowly(age);
 	print_slowly(" years old.\nIn ");
-	// char left_to_100[100] = itoa()
-	print_slowly(ft_itoa(resten));
+	print_slowly(ft_itoa(rest));
 	print_slowly(" years you'll be 100!");
 	return (0);
 }
