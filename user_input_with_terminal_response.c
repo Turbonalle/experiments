@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-void delay(int number_of_seconds)
+void delay(float number_of_seconds)
 {
-    int milli_seconds = 100 * number_of_seconds;
+    int milli_seconds = 1000 * number_of_seconds;
     clock_t start_time = clock();
     while (clock() < start_time + milli_seconds);
 }
@@ -15,7 +15,7 @@ void print_slowly(char *str)
 
 	while (str[i])
 	{
-		delay(1);
+		delay(0.1);
 		printf("%c", str[i]);
 		i++;
 	}
@@ -100,8 +100,14 @@ int main()
 	int rest = 100 - atoi(age);
 	print_slowly("You are ");
 	print_slowly(age);
-	print_slowly(" years old.\nIn ");
+	if (rest == 99)
+		print_slowly(" year old.\nIn ");
+	else
+		print_slowly(" years old.\nIn ");
 	print_slowly(ft_itoa(rest));
-	print_slowly(" years you'll be 100!");
+	if (rest == 1)
+		print_slowly(" year you'll be 100!");
+	else
+		print_slowly(" years you'll be 100!");
 	return (0);
 }
