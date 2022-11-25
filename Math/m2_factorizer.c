@@ -32,5 +32,6 @@ int main(int ac, char **av)
 	if (ac != 2)
 		return (0);
 	factorize(atoi(av[1]));
+	printf("\n");
 	return (0);
 }
