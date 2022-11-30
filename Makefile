@@ -11,6 +11,7 @@ m2:
 
 m3:
 	@gcc Math/m3_highest_common_factor.c
+	@echo "Compiled 'Highest Common Factor'!"
 
 clean:
 	@rm *.out
