@@ -9,6 +9,9 @@ m2:
 	@gcc Math/m2_factorizer.c
 	@echo "Compiled 'factorizer'!"
 
+m3:
+	@gcc Math/m3_highest_common_factor.c
+
 clean:
 	@rm *.out
 	@echo "All clean!"
