@@ -10,9 +10,9 @@ void welcome_text(void)
 	printf("I will convert any number for you!\n");
 	printf("Tell me which number system to convert from, by writing the following characters:\n");
 	printf("Binary:\tb\n");
-	printf("Binary:\to\n");
-	printf("Binary:\td\n");
-	printf("Binary:\th\n");
+	printf("Octal:\to\n");
+	printf("Decimal:\td\n");
+	printf("Hexa:\th\n");
 }
 
 int get_base_input(data *data)
