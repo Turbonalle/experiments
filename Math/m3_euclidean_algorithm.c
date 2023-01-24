@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Enter two numbers. The algorithm will find the gcd of them.
+
 int euclids_algorithm(int dividend, int divisor)
 {
 	if (divisor == 0) return (dividend);

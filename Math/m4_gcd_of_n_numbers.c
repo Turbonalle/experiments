@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Enter any number of integers. Program will find the gcd of them.
+
 int *create_input_array(char **av, int number_of_input)
 {
 	int *input_array;

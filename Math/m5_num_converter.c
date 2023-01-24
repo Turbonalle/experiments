@@ -29,6 +29,11 @@ int get_base_input(data *data)
 	return (1);
 }
 
+void handle_input(data *data)
+{
+	
+}
+
 int program(data *data)
 {
 	welcome_text();
