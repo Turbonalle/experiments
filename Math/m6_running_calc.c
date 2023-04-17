@@ -156,7 +156,6 @@ int main(void)
 	
 	printf(GREEN"----------------------------------\n");
 	printf("\tRUNNING CALCULATOR\n");
-	// printf("----------------------------------\n"WHITE);
 	input = get_input();
 	while (input != 0)
 	{
