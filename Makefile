@@ -13,6 +13,10 @@ run:
 	@gcc Math/m3_highest_common_factor.c
 	@echo "Compiled 'Highest Common Factor'!"
 
+m6:
+	@gcc Math/m6_running_calc.c
+	@echo "Compiled 'Running Calculator'!"
+
 clean:
 	@rm *.out
 	@echo "All clean!"
