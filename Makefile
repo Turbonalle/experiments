@@ -1,15 +1,15 @@
 run:
 	@./a.out
 
-11:
+m1:
 	@gcc Math/m1_6174.c
 	@echo "Compiled '6147'!"
 
-12:
+m2:
 	@gcc Math/m2_factorizer.c
 	@echo "Compiled 'factorizer'!"
 
-21:
+m3:
 	@gcc Math/m3_highest_common_factor.c
 	@echo "Compiled 'Highest Common Factor'!"
 
