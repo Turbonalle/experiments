@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #define WIN 1
 #define LOSE 0
 #define YES 1
@@ -162,10 +163,12 @@ int play_again()
 
 void print_board(data *d, int player)
 {
-	if (player == PLAYER)
-		printf("YOU:\n");
-	if (player == BOT)
-		printf("BOT:\n");
+	system("clear");
+	fflush(stdout);
+	// if (player == PLAYER)
+	// 	printf("YOU:\n");
+	// if (player == BOT)
+	// 	printf("BOT:\n");
 	printf("-------------\n");
 	printf("| %c | %c | %c |\n", d->board[6], d->board[7], d->board[8]);
 	printf("-------------\n");
@@ -176,13 +179,13 @@ void print_board(data *d, int player)
 	printf("\n");
 }
 
-void bot_perfect_move(data *d)
-{
-	if (d->first == PLAYER)
-		bot_second(d);
-	else
-		bot_first(d);
-}
+// void bot_perfect_move(data *d)
+// {
+// 	if (d->first == PLAYER)
+// 		bot_second(d);
+// 	else
+// 		bot_first(d);
+// }
 
 void bot_simple_move(data *d)
 {
