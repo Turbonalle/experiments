@@ -137,25 +137,53 @@ void print_header(void)
 
 //------------------------------------------------------------------------------
 
+// void set_color(char *word, char c, int pos)
+// {
+// 	if ()
+// }
+
+//------------------------------------------------------------------------------
+
+
+
+//------------------------------------------------------------------------------
+
 void print_board(t_data *d)
 {
-	int i;
-	int j;
+	int line;
+	int pos;
 
-	i = 0;
-	while (i < 5)
+	line = 0;
+	while (line < 5)
 	{
-		j = 0;
-		while (j < 4)
+		pos = 0;
+		while (pos < 4)
 		{
-			printf("%c ", d->board[i][j]);
-			j++;
+			// set_color(d->word, d->board[line][pos], pos);
+			printf("%c ", d->board[line][pos]);
+			// reset_color();
+			pos++;
 		}
-		printf("%c\n", d->board[i][j]);
+		printf("%c\n", d->board[line][pos]);
 		printf("\n");
-		i++;
+		line++;
 	}
 	printf("\n");
+}
+
+//------------------------------------------------------------------------------
+
+int all_letters(char *guess)
+{
+	int i;
+
+	i = -1;
+	while (++i < 5)
+	{
+		if (!('a' <= guess[i] && guess[i] <= 'z') || ('A' <= guess[i] && guess[i] <= 'Z'))
+			return (0);
+	}
+	return (1);
 }
 
 //------------------------------------------------------------------------------
@@ -170,6 +198,8 @@ void get_guess(t_data *d)
 		scanf("%s", d->guess);
 		if (strlen(d->guess) != 5)
 			printf(RED"Error: Guess must be 5 letters long\n"RESET);
+		else if (!all_letters(d->guess))
+			printf(RED"Error: Only alphabetic characters allowed\n"RESET);
 		else
 			valid_guess = 1;
 	}
@@ -197,6 +227,19 @@ int check_win(t_data *d)
 	return (0);
 }
 
+//------------------------------------------------------------------------------
+
+void update_board(t_data *d)
+{
+	int i;
+
+	i = -1;
+	while (++i < 5)
+		d->board[d->attempts][i] = d->guess[i];
+}
+
+//------------------------------------------------------------------------------
+
 int main(void)
 {
 	t_data d;
@@ -210,10 +253,11 @@ int main(void)
 	d.game = ON;
 	while (d.game == ON)
 	{
+		fflush(stdout);
 		print_header();
 		print_board(&d);
 		get_guess(&d);
-		// update_board(&d);
+		update_board(&d);
 		if (check_win(&d))
 			d.game = OFF;
 	}
