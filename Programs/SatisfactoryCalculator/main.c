@@ -1,61 +1,10 @@
-#define BUILDINGS 100
-
-enum	quality = { IMPURE, NORMAL, PURE };
-enum	type = { ORE };
-
-typedef struct node
-{
-	char	*ore;
-	int		quality;
-}
-
-typedef struct ore
-{
-	int		prod_impure;
-	int		prod_normal;
-	int		prod_pure;
-}		ore;
-
-typedef struct item
-{
-	char	*name;
-	int		recipe_amount;
-	recipe	recipes[3];
-}
-
-typedef struct requirement
-{
-	char	*item;
-	int		amount_needed;
-}			requirement;
-
-typedef struct recipe
-{
-	char		*product;
-	int			type;
-	int			production_amount;
-	int			second_interval;
-	building	building;
-}				recipe;
-
-typedef struct building
-{
-	char		*name;
-	int			power_usage_MW;
-	int			n_items_needed;
-}				building;
-
-typedef struct data
-{
-	building	buildings[BUILDINGS];
-	int			power_consumption;
-	int			max_conveyor_speed;
-}				data;
+#include "satisfactory_calculator.h"
 
 void	init_buildings(data *d)
 {
-	building	smelter = { "smelter", 4, 1 };
-	building	constructor = { "constructor", 4, 1 };
+	// building: { name, power_usage, items_needed }
+	t_building	smelter = { "smelter", 4, 1 };
+	t_building	constructor = { "constructor", 4, 1 };
 
 	d.buildings[0] = smelter;
 
@@ -63,7 +12,7 @@ void	init_buildings(data *d)
 
 void	init_items(data *d)
 {
-	recipe	iron_ingot;
+	t_recipe	iron_ingot;
 
 	iron_ingot.product = "iron_ingot";
 	iron_ingot.production_amount = 30;
@@ -73,12 +22,27 @@ void	init_items(data *d)
 	d.recipes[0] = iron_ingot;
 }
 
+void	get_player_requirement(data *d)
+{
+	d.player_requirement.item = "iron_ingot";
+	d.player_requirement.amount_needed = 60;
+}
+
 int main(void)
 {
-	data d;
+	t_data d;
 
 	init_buildings(&d);
 	init_items(&d);
 
+	get_player_requirement(&d);
+	calculate_requirements(&d);
+
+	
+
+	iron_ore.requirement = iron_ingot.requirement / iron_ingot.production_amount * iron_ingot.input.iron_ore;
+
 	return (0);
 }
+
+double x = 100 / 30 * 30
