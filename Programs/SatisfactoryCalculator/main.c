@@ -2,130 +2,93 @@
 
 //------------------------------------------------------------------------------
 
-void init_items(t_data *d)
-{
-	t_item	iron_ore = { ORE, 0, 0, 0 };
-	t_item	iron_ingot = { ITEM, 1, 0, 0 };
-
-	d->items[IRON_ORE] = iron_ore;
-	d->items[IRON_INGOT] = iron_ingot;
-}
-
-//------------------------------------------------------------------------------
-
-void init_buildings(t_data *d)
-{
-	t_building	smelter = { "Smelter", 4, 1 };
-	t_building	constructor = { "Constructor", 4, 1 };
-	t_building	manufacturer = { "Manufacturer", 4, 1 };
-	t_building	coal_generator = { "Coal Generator", 4, 1 };
-	t_building	biomass_burner = { "Biomass Burner", 4, 1 };
-	t_building	coal_power_plant = { "Coal Power Plant", 4, 1 };
-	t_building	oil_refinery = { "Oil Refinery", 4, 1 };
-	t_building	compactor = { "Compactor", 4, 1 };
-	t_building	assembler = { "Assembler", 4, 1 };
-	t_building	foundry = { "Foundry", 4, 1 };
-
-	d->buildings[SMELTER] = smelter;
-	d->buildings[CONSTRUCTOR] = constructor;
-}
-
-//------------------------------------------------------------------------------
-
 void	get_requirements(t_data *d, t_item *item)
 {
-	item->recipes[0].items_needed[0].amount_needed = item->amount_needed / item->recipes[0].production_amount * item->recipes[0].item_amount_needed[0];
+	double total_resource_needed;
+	double production_amount_needed;
+	double production_amount;
+	double resource_amount_needed_per_recipe;
+	
+	production_amount_needed = item->amount_needed;
+	production_amount = item->recipes[0].production_amount;
+	resource_amount_needed_per_recipe = item->recipes[0].item_amount_needed[0];
+
+	// Calculate total amount of resource needed
+	total_resource_needed = production_amount_needed / production_amount * resource_amount_needed_per_recipe;
+
+	// Set amount needed for resource
+	item->recipes[0].items_needed[0]->amount_needed = total_resource_needed;
+}
+
+//------------------------------------------------------------------------------
+
+void	calculate_requirements(t_data *d)
+{
+	// Recursively call get_requirements if items_needed is not NULL
+	t_item	*item_needed = d->player_requirement.item;
+
+	while (item_needed->recipes[0].n_resources > 0)
+	{
+		get_requirements(d, item_needed);
+		item_needed = item_needed->recipes[0].items_needed[0];
+	}
+	
 }
 
 //------------------------------------------------------------------------------
 
 void	calculate_power_consumption(t_data *d)
 {
+	int buildings_needed;
 	int i;
 
+	printf("\n");
+	printf("----Calculating power consumption----\n");
 	d->power_consumption = 0;
 	i = -1;
 	while (++i < ITEMS)
 	{
+		printf("i = %d\n", i);
 		if (d->items[i].type == ITEM)
 		{
-			d->power_consumption += ceil(d->items[i].amount_needed / d->items[i].recipes[0].production_amount) * d->items[i].recipes[0].building.power_usage_MW;
+			buildings_needed = ceil(d->items[i].amount_needed / d->items[i].recipes[0].production_amount);
+			d->power_consumption += buildings_needed * d->items[i].recipes[0].building.power_usage_MW;
+			printf("--[%s]--\n", d->items[i].name);
+			printf("Buildings needed = %d\n", buildings_needed);
+			printf("Power_consumption = %.0f\n", d->power_consumption);
 		}
 		else if (d->items[i].type == ORE)
 		{
-			d->power_consumption += ceil(d->items[i].amount_needed / d->items[i].recipes[0].production_amount) * d->items[i].recipes[0].building.power_usage_MW;
+			buildings_needed = ceil(d->items[i].amount_needed / d->items[i].recipes[0].production_amount);
+			d->power_consumption += buildings_needed * d->items[i].recipes[0].building.power_usage_MW;
+			printf("--[%s]--\n", d->items[i].name);
+			printf("Miners needed = %d\n", buildings_needed);
+			printf("d->power_consumption = %.0f\n", d->power_consumption);
 		}
 	}
 }
 
 //------------------------------------------------------------------------------
 
-void print_item_requirements(t_data *d, t_item *item)
+void get_player_requirement(t_data *d)
 {
-	int i;
-
-	i = -1;
-	while (++i < ITEMS)
-	{
-		if (d->items[i].type == ITEM)
-			printf("%s: %d\n", d->items[i].recipes[0].items_needed[0].ore, d->items[i].recipes[0].items_needed[0].amount_needed);
-	}
+	d->player_requirement.item = &d->items[e_screw];
+	d->player_requirement.item->amount_needed = 500;
 }
 
 //------------------------------------------------------------------------------
-
-void print_power_consumption(t_data *d)
-{
-	printf("Power consumption: %d MW\n", d->power_consumption);
-}
-
-//------------------------------------------------------------------------------
-
-void create_iron_ingot_recipe(t_data *d)
-{
-	t_recipe iron_ingot_recipe;
-
-	iron_ingot_recipe.production_amount = 30;
-	iron_ingot_recipe.second_interval = 2;
-	iron_ingot_recipe.building = d->buildings[SMELTER];
-	iron_ingot_recipe.items_needed[0] = d->items[IRON_ORE];
-	iron_ingot_recipe.item_amount_needed[0] = 30;
-
-	// Add recipe to list
-	d->items[IRON_INGOT].recipes[0] = iron_ingot_recipe;
-}
 
 int main(void)
 {
 	t_data d;
 
-	init_items(&d);
-	init_buildings(&d);
+	init_data(&d);
+	get_player_requirement(&d);
 
-	t_item	iron_ore = { ORE, 0, 0, 0 };
-	t_item	iron_ingot = { ITEM, 1, 0, 0 };
-	t_recipe iron_ingot_recipe;
-
-	// Initialize amount needed to 0
-	iron_ore.amount_needed = 0;
-	iron_ingot.amount_needed = 0;
-
-	// Create recipe for iron ingot
-	create_iron_ingot_recipe(&d);
-	iron_ingot_recipe.production_amount = 30;
-	iron_ingot_recipe.second_interval = 2;
-	iron_ingot_recipe.building = d.buildings[SMELTER];
-
-	// Add recipe to list
-	iron_ingot.recipes[0] = iron_ingot_recipe;
-
-	iron_ingot.amount_needed = 120;
-
-	get_requirements(&d, &iron_ingot);
+	calculate_requirements(&d);
+	print_item_requirements(&d);
 
 	calculate_power_consumption(&d);
-
-	print_item_requirements(&d, &iron_ingot);
 	print_power_consumption(&d);
 
 	
