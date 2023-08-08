@@ -1,6 +1,7 @@
 NAME =	satisfactory-calculator
 FILES =	main.c \
-		recipes.c
+		init_data.c \
+		print_result.c
 OBJ =	$(FILES:.c=.o)
 CC =	gcc
 FLAGS =	-Wall -Wextra -Werror
