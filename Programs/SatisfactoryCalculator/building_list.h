@@ -1,3 +1,9 @@
-#define MINER 0
-#define SMELTER 1
-#define CONSTRUCTOR 2
+#define BUILDINGS 5
+
+enum e_buildings {
+	e_miner,
+	e_smelter,
+	e_constructor,
+	e_assembler,
+	e_manufacturer
+};

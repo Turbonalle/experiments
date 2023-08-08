@@ -1,12 +1,14 @@
 #include "item_list.h"
 #include "building_list.h"
-#include <stdio.h>
-#include <math.h>
-
-#define BUILDINGS 100
+#include <stdio.h>	// printf
+#include <math.h>	// ceil
+#include <stdlib.h>	// atof
+#include <string.h>	// strcmp
 
 #define ORE 0
 #define ITEM 1
+
+#define MAX_REQUIREMENTS 10
 
 typedef struct s_item t_item;
 
@@ -15,12 +17,6 @@ typedef struct s_node
 	char	*ore;
 	int		quality;
 }			t_node;
-
-typedef struct s_requirement
-{
-	t_item	*item;
-	double	amount_needed;
-}			t_requirement;
 
 typedef struct s_building
 {
@@ -55,13 +51,18 @@ typedef struct s_data
 	t_building		buildings[BUILDINGS];
 	double			power_consumption;
 	int				max_conveyor_speed;
-	t_requirement	player_requirement;
+	t_item			player_requirement[MAX_REQUIREMENTS];
+	int				n_player_requirements;
 }				t_data;
 
-// recipes.c
-void create_iron_ore_recipe(t_data *d);
-void create_iron_ingot_recipe(t_data *d);
-void create_iron_rod_recipe(t_data *d);
+// calculate_requirements.c
+void calculate_requirements(t_data *d);
+
+// calculate_power.c
+void calculate_power_consumption(t_data *d);
+
+// get_player_requirement.c
+void get_player_requirement(t_data *d, int ac, char **av);
 
 // print_result.c
 void print_item_requirements(t_data *d);
