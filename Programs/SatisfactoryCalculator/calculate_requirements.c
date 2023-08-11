@@ -2,39 +2,58 @@
 
 //------------------------------------------------------------------------------
 
-void	get_requirements(t_data *d, t_item *item)
+void	get_requirements(t_data *d, t_item *item, int update)
 {
+	t_recipe *recipe;
 	double total_resource_needed;
 	double production_amount_needed;
 	double production_amount;
 	double resource_amount_needed_per_recipe;
+	int i;
 	
+	recipe = &item->recipes[0];
 	production_amount_needed = item->amount_needed;
-	production_amount = item->recipes[0].production_amount;
-	resource_amount_needed_per_recipe = item->recipes[0].item_amount_needed[0];
+	production_amount = recipe->production_amount;
 
-	// Calculate total amount of resource needed
-	total_resource_needed = production_amount_needed / production_amount * resource_amount_needed_per_recipe;
+	i = -1;
+	while (++i < recipe->n_resources)
+	{
+		if (update == UPDATE)
+			recipe->resources[i]->amount_needed = 0;
+		total_resource_needed = production_amount_needed / production_amount * recipe->resource_amount[i];
+		recipe->resources[i]->amount_needed += total_resource_needed;
+		if (recipe->resources[i]->amount_needed == 0)
+		{
+			get_requirements(d, recipe->resources[i], NO_UPDATE);
+		}
+		else
+		{
+			get_requirements(d, recipe->resources[i], UPDATE);
+		}
+	}
+}
 
-	// Set amount needed for resource
-	item->recipes[0].items_needed[0]->amount_needed = total_resource_needed;
+//------------------------------------------------------------------------------
+
+void	item_requirements(t_data *d, t_item *item)
+{
+	int i;
+
+	if (item->recipes[0].n_resources > 0)
+	{
+		get_requirements(d, item, NO_UPDATE);
+	}
 }
 
 //------------------------------------------------------------------------------
 
 void	calculate_requirements(t_data *d)
 {
-	// Recursively call get_requirements if items_needed is not NULL
-	t_item	*item_needed = &d->player_requirement[0];
+	int i;
 
-	int n = 0;
-	while (n < d->n_player_requirements)
+	i = -1;
+	while (++i < d->n_player_requirements)
 	{
-		while (item_needed->recipes[0].n_resources > 0)
-		{
-			get_requirements(d, item_needed);
-			item_needed = item_needed->recipes[0].items_needed[0];
-		}
-		n++;
+		item_requirements(d, &d->player_requirement[i]);
 	}
 }

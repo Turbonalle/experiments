@@ -36,10 +36,11 @@ int main(int ac, char **av)
 	get_player_requirement(&d, ac, av);
 
 	calculate_requirements(&d);
-	print_item_requirements(&d);
+	// print_item_requirements(&d);
 
 	calculate_power_consumption(&d);
-	print_power_consumption(&d);
+	// print_power_consumption(&d);
+	print_requirements(&d);
 
 	
 	return (0);

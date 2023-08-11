@@ -7,6 +7,12 @@
 
 #define ORE 0
 #define ITEM 1
+#define ELEVATOR_ITEM 2
+#define SCAVENGE 3
+#define LIQUID 4
+
+#define NO_UPDATE 0
+#define UPDATE 1
 
 #define MAX_REQUIREMENTS 10
 
@@ -30,9 +36,10 @@ typedef struct s_recipe
 	double		production_amount;
 	double		second_interval;
 	int			n_resources;
-	t_item		*items_needed[4];
-	double		item_amount_needed[4];
+	t_item		*resources[4];
+	double		resource_amount[4];
 	t_item		*waste;
+	double		waste_amount;
 	t_building	building;
 }				t_recipe;
 
@@ -42,6 +49,8 @@ typedef struct s_item
 	int			type;
 	int			recipe_amount;
 	t_recipe	recipes[3];
+	double		buildings_needed;
+	double		power_needed;
 	double		amount_needed;
 }				t_item;
 
@@ -64,9 +73,8 @@ void calculate_power_consumption(t_data *d);
 // get_player_requirement.c
 void get_player_requirement(t_data *d, int ac, char **av);
 
-// print_result.c
-void print_item_requirements(t_data *d);
-void print_power_consumption(t_data *d);
+// print_requirements.c
+void print_requirements(t_data *d);
 
 // init_data.c
 void init_data(t_data *d);
