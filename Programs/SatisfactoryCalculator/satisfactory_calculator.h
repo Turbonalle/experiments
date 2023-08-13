@@ -9,7 +9,7 @@
 #define ITEM 1
 #define ELEVATOR_ITEM 2
 #define SCAVENGE 3
-#define LIQUID 4
+#define FLUID 4
 
 #define NO_UPDATE 0
 #define UPDATE 1
@@ -20,9 +20,9 @@ typedef struct s_item t_item;
 
 typedef struct s_node
 {
-	char	*ore;
-	int		quality;
-}			t_node;
+	char		*ore;
+	int			quality;
+}				t_node;
 
 typedef struct s_building
 {
@@ -56,26 +56,33 @@ typedef struct s_item
 
 typedef struct s_data
 {
-	t_item			items[ITEMS];
-	t_building		buildings[BUILDINGS];
-	double			power_consumption;
-	int				max_conveyor_speed;
-	t_item			player_requirement[MAX_REQUIREMENTS];
-	int				n_player_requirements;
+	t_item		items[ITEMS];
+	t_building	buildings[BUILDINGS];
+	double		power_consumption;
+	int			max_conveyor_speed;
+	t_item		player_requirement[MAX_REQUIREMENTS];
+	int			n_player_requirements;
 }				t_data;
 
 // calculate_requirements.c
-void calculate_requirements(t_data *d);
+void	calculate_requirements(t_data *d);
 
 // calculate_power.c
-void calculate_power_consumption(t_data *d);
+void	calculate_power_consumption(t_data *d);
 
 // get_player_requirement.c
-void get_player_requirement(t_data *d, int ac, char **av);
+void	get_player_requirement(t_data *d, int ac, char **av);
 
 // print_requirements.c
-void print_requirements(t_data *d);
+void	print_requirements(t_data *d);
 
-// init_data.c
-void init_data(t_data *d);
-
+// initialize
+void	init_buildings(t_data *d);
+void	init_ores(t_data *d);
+void	init_fluids(t_data *d);
+void	init_items(t_data *d);
+void	init_elevator_items(t_data *d);
+void	init_ore_recipes(t_data *d);
+void	init_fluid_recipes(t_data *d);
+void	init_item_recipes(t_data *d);
+void	init_elevator_item_recipes(t_data *d);

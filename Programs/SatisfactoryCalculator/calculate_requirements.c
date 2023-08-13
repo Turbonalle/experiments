@@ -13,7 +13,10 @@ void	get_requirements(t_data *d, t_item *item, int update)
 	
 	recipe = &item->recipes[0];
 	production_amount_needed = item->amount_needed;
+	printf("item name = %s\n", item->name);
+	printf("production_amount_needed = %.0f\n", production_amount_needed);
 	production_amount = recipe->production_amount;
+	printf("production_amount = %.0f\n", production_amount);
 
 	i = -1;
 	while (++i < recipe->n_resources)

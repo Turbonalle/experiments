@@ -7,11 +7,18 @@ void print_requirements(t_data *d)
 	t_item *item;
 	int i;
 
+	// print player requirements
+	i = -1;
+	while (++i < d->n_player_requirements)
+	{
+		printf("Player requirement: %s %.0lf\n", d->player_requirement[i].name, d->player_requirement[i].amount_needed);
+	}
 	printf("\n");
-	printf("----Requirements----\n");
+
+	// print requirements
+	printf("----Requirements----------------------------------------\n");
 	printf("%-15s | %6s | %3s * %-12s | %5s |\n", "Item", "Amount", "n", "Building", "Power");
 	printf("----------------|--------|---------------------|-------|\n");
-
 	i = -1;
 	while (++i < ITEMS)
 	{
