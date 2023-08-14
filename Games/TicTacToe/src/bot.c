@@ -2,15 +2,15 @@
 
 int random_corner()
 {
-	int corners[4];
+	int corners[] = { 0, 2, 6, 8 };
 	int n;
 
 	srand(time(NULL));
 	n = floor(rand() % 4);
-	corners[0] = 0;
-	corners[1] = 2;
-	corners[2] = 6;
-	corners[3] = 8;
+	// corners[0] = 0;
+	// corners[1] = 2;
+	// corners[2] = 6;
+	// corners[3] = 8;
 	return (corners[n]);	
 }
 
