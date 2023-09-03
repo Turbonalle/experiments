@@ -45,41 +45,6 @@ void reset_map(map_t *map)
 	}
 }
 
-void init_map(map_t *map, int columns, int rows, int cell_size)
-{
-	int i;
-
-	map->columns = columns;
-	map->rows = rows;
-	map->cell_size = cell_size;
-	map->grid = malloc(sizeof(int *) * rows);
-	if (!map->grid)
-		ft_error();
-	i = -1;
-	while (++i < map->rows)
-	{
-		map->grid[i] = malloc(sizeof(int) * map->columns);
-		if (!map->grid[i])
-			ft_error();
-	}
-	reset_map(map);
-}
-
-void print_map(map_t *map)
-{
-	int column;
-	int row;
-
-	row = -1;
-	while (++row < map->rows)
-	{
-		column = -1;
-		while (++column < map->columns)
-			printf("%d ", map->grid[row][column]);
-		printf("\n");
-	}
-}
-
 int	main(void)
 {
 	// mlx_set_setting(MLX_MAXIMIZED, true);
@@ -107,5 +72,6 @@ int	main(void)
 	
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
+	free_map(&map);
 	return (EXIT_SUCCESS);
 }

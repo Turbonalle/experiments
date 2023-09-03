@@ -22,3 +22,4 @@ int get_a(int rgba)
 {
 	return (rgba & 0xFF);
 }
+
